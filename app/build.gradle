@@ -39,6 +39,11 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'openchat.App'
+    manifest {
+        attributes(
+                'Main-Class': 'openchat.App'
+        )
+    }
 }
 
 tasks.named('test') {
