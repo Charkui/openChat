@@ -3,12 +3,31 @@
  */
 package openchat;
 
+import io.javalin.Javalin;
+import openchat.api.UsersAPI;
+import openchat.domain.users.IdGenerator;
+import openchat.domain.users.UserRepository;
+import openchat.domain.users.UserService;
+
 public class App {
-    public String getGreeting() {
+    private UsersAPI usersAPI;
+    
+    public App() {
+    	IdGenerator idGenerator = new IdGenerator();
+    	UserRepository userRepository = new UserRepository();
+		UserService userService = new UserService(idGenerator, userRepository);
+		usersAPI = new UsersAPI(userService);
+	}
+
+	public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    	App mainApp = new App();
+        Javalin app = Javalin.create().start(7000);
+        app.get("/status", ctx -> ctx.result("Open chat"));
+        app.post("/users", ctx -> mainApp.usersAPI.createUser(ctx));
+        app.get("/*", ctx -> ctx.result("API not implemented"));
     }
 }
