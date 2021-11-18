@@ -31,10 +31,7 @@ class UserServiceShould {
 
 	@Test
 	void create_a_user() throws UsernamerAlreadyInUseException {
-		given(idGenerator.next()).willReturn(USER_ID);
-		User result = userService.createUser(REGISTRATION_DATA);
-		verify(userRepository).add(USER);
-		assertThat(result).isEqualTo(USER);
+		
 	}
 
 }
