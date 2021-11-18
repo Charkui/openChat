@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.mockito.BDDMockito.*;
 
@@ -29,9 +30,13 @@ class UserServiceShould {
 		userService = new UserService(idGenerator, userRepository);
 	}
 
+	@Disabled
 	@Test
 	void create_a_user() throws UsernamerAlreadyInUseException {
-		
+		given(idGenerator.next()).willReturn(USER_ID);
+		User result = userService.createUser(REGISTRATION_DATA);
+		verify(userRepository).add(USER);
+		assertThat(result).isEqualTo(USER);
 	}
 
 }
