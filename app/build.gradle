@@ -41,6 +41,14 @@ application {
     mainClass = 'openchat.App'
 }
 
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'openchat.App'
+    )
+  }
+}
+
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
