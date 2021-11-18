@@ -39,7 +39,10 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'openchat.App'
-    manifest {
+}
+
+jar {
+	manifest {
         attributes(
                 'Main-Class': 'openchat.App'
         )
