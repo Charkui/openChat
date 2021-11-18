@@ -41,14 +41,9 @@ application {
     mainClass = 'openchat.App'
 }
 
-jar {
-	manifest {
+manifest {
        attributes(
-          'Class-Path': configurations.compile.files.collect {"$it.name"}.join(' '),
-          'Main-Class': 'openchat.App')}
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+          'Main-Class': 'openchat.App')
 }
 
 tasks.named('test') {
