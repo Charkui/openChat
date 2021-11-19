@@ -4,6 +4,7 @@
 package openchat;
 
 import io.javalin.Javalin;
+import openchat.api.LoginAPI;
 import openchat.api.UsersAPI;
 import openchat.domain.users.IdGenerator;
 import openchat.domain.users.UserRepository;
@@ -11,12 +12,14 @@ import openchat.domain.users.UserService;
 
 public class App {
     private UsersAPI usersAPI;
+	private LoginAPI loginAPI;
     
     public App() {
     	IdGenerator idGenerator = new IdGenerator();
     	UserRepository userRepository = new UserRepository();
 		UserService userService = new UserService(idGenerator, userRepository);
 		usersAPI = new UsersAPI(userService);
+		loginAPI = new LoginAPI(userRepository);
 	}
 
 	public String getGreeting() {
@@ -28,6 +31,7 @@ public class App {
         Javalin app = Javalin.create().start(getHerokuAssignedPort());
         app.get("/status", ctx -> ctx.result("Open chat"));
         app.post("/users", ctx -> mainApp.usersAPI.createUser(ctx));
+        app.post("/login", ctx -> mainApp.loginAPI.login(ctx));
         app.get("/*", ctx -> ctx.result("API not implemented"));
     }
     
