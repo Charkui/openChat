@@ -25,9 +25,17 @@ public class App {
 
     public static void main(String[] args) {
     	App mainApp = new App();
-        Javalin app = Javalin.create().start(7000);
+        Javalin app = Javalin.create().start(getHerokuAssignedPort());
         app.get("/status", ctx -> ctx.result("Open chat"));
         app.post("/users", ctx -> mainApp.usersAPI.createUser(ctx));
         app.get("/*", ctx -> ctx.result("API not implemented"));
     }
+    
+    private static int getHerokuAssignedPort() {
+        String herokuPort = System.getenv("PORT");
+        if (herokuPort != null) {
+          return Integer.parseInt(herokuPort);
+        }
+        return 7000;
+      }
 }
